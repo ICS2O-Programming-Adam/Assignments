@@ -46,10 +46,10 @@ local leftEyeVertices = {-60, 40, -40, 60, -40, 80, -60, 100, -80, 100, -100, 80
 -- draw the left eye
 local leftEye = display.newPolygon( 450, 330, leftEyeVertices)
 
---change the width of the border of the left eye
+-- change the width of the border of the left eye
 leftEye.strokeWidth = 2
 
---set the colour of the border of the nose
+-- set the colour of the border of the nose
 leftEye:setStrokeColor( 0/255, 0/255, 0/255 )
 
 --vertices for right eye
@@ -86,3 +86,19 @@ mouth.strokeWidth = 2
 
 -- change the colour of the mouth's border
 mouth:setStrokeColor(0,0,0)
+
+-- draw the right pupil
+local rightPupil = display.newCircle( 560, 325, 10, 10 )
+
+-- change the colour of the right pupil
+rightPupil:setFillColor( 0, 0, 0 )
+
+-- draw the left pupil
+local leftPupil = display.newCircle( 435, 325, 10, 10 )
+
+-- change the colour of the left pupil
+leftPupil:setFillColor( 0, 0, 0 )
+
+-- set the vertices for the mouth line
+
+local mouthLine = display.newLine( -80, -40, -60, -60, -20, -80, 20, -80, 60, 60, 80, 40 )
