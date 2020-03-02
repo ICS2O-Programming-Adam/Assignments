@@ -8,6 +8,9 @@
 -- to remove staus bar
 display.setStatusBar(display.HiddenStatusBar)
 
+-- set the colour of the background
+display.setDefault( "background", 0/255, 250/255, 154/255 )
+
 -- vertices for head
 local headVertices = {120, 140, 120, -40, 100, -80, 80, -100, 60, -120, 20, -140, -20, -140,
  -60, -120, -80, -100, -100, -80, -120, -40, -120, 140 }
@@ -20,6 +23,12 @@ head:scale(1,-1)
 
 -- change the colour of the head
 head:setFillColor( 255/255, 160/255, 122/255 )
+
+-- change the width of the head's border
+head.strokeWidth = 2
+
+-- set the colour of the head's border
+head:setStrokeColor(0,0,0)
 
 -- vertices for nose
 local noseVertices = {-40, 100, -20, 80, -20, 20, -40, 0, -40, -20, -20, -40, 20, -40, 40, -20,
@@ -100,5 +109,52 @@ local leftPupil = display.newCircle( 435, 325, 10, 10 )
 leftPupil:setFillColor( 0, 0, 0 )
 
 -- set the vertices for the mouth line
+local mouthLine = display.newLine( -80, 40, -60, 60, -20, 80, 20, 80, 60, 60, 80, 40, 80, 40)
 
-local mouthLine = display.newLine( -80, -40, -60, -60, -20, -80, 20, -80, 60, 60, 80, 40 )
+-- set the position of the mouthLine
+mouthLine.x = 433
+mouthLine.y = 445
+
+-- set the width of the mouthLine's border
+mouthLine.strokeWidth = 3
+
+-- set the colour of the mouthLine
+mouthLine:setStrokeColor( 0, 0, 0 )
+
+local hairVertices = { -120,140, -140,120, -120,160, -140,180, -120,180,  -140,220,
+-100,200, -80,230, -60,180, -40,220, -30,200, 0,240, 20,180, 30,220, 40,200, 
+80,240, 70,200, 100,220, 100,200, 140,210, 120,180, 160,160, 140,150, 150,120, 
+120, 140, 90, 120, 80, 140, 60, 140, 55, 160, 40, 140, 30, 120, 10, 150, -20, 120, 
+-30, 140, -40, 110, -70, 150, -80, 120, -90, 140, -100, 120 }
+
+local hair = display.newPolygon(520, 240, hairVertices)
+
+hair:scale(1,-1)
+
+hair:setFillColor( 139/255, 69/255, 19/255 )
+
+hair.strokeWidth = 2
+
+hair:setStrokeColor(0,0,0)
+
+local rightEarVertices = {120, 100, 140, 90, 150, 70, 150, 40, 130, 20, 120, 20 }
+
+local rightEar = display.newPolygon( 648, 350, rightEarVertices)
+
+rightEar:scale(1,-1)
+
+rightEar:setFillColor( 255/255, 160/255, 122/255 )
+
+rightEar.strokeWidth = 1
+
+rightEar:setStrokeColor(0,0,0)
+
+local leftEarVertices = { -120, 100, -140, 90, -150, 70, -150, 40, -130, 20, -120, 20 }
+
+local leftEar = display.newPolygon( 376, 350, leftEarVertices )
+
+leftEar.strokeWidth = 1
+
+leftEar:setStrokeColor(0,0,0)
+
+leftEar:setFillColor( 255/255, 160/255, 122/255 )
