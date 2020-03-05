@@ -129,6 +129,42 @@ mouthLine.strokeWidth = 3
 -- set the colour of the mouthLine
 mouthLine:setStrokeColor( 0, 0, 0 )
 
+-- set the vertices for the left eyebrow
+local leftEyebrowVertices = { -60, 105, -60, 115, -80, 115, -100, 105, -100, 95, -80, 105 }
+
+-- draw the right eyebrow
+local leftEyebrow = display.newPolygon( 437, 295, leftEyebrowVertices )
+
+-- flip the left eyebrow vertically
+leftEyebrow:scale(1,-1)
+
+-- change the colour of the left eyebrow
+leftEyebrow:setFillColor( 139/255, 69/255, 19/255 )
+
+-- change the width of the left eyebrow's border
+leftEyebrow.strokeWidth = 1
+
+-- change the colour of the left eyebrow's border
+leftEyebrow: setStrokeColor( 0,0,0 )
+
+-- set the vertices for the right eyebrow
+local rightEyebrowVertices = { 60, 105, 60, 115, 80, 115, 100, 105, 100, 95, 80, 105 }
+
+-- draw the right eyebrow
+local rightEyebrow = display.newPolygon( 586, 295, rightEyebrowVertices )
+
+-- flip the right eyebrow vertically
+rightEyebrow:scale(1,-1)
+
+-- change the colour of the right eyebrow
+rightEyebrow:setFillColor( 139/255, 69/255, 19/255)
+
+-- change the width of the right eyebrow's border's width
+rightEyebrow.strokeWidth = 1
+
+-- change the colour of the right eyebrow's border
+rightEyebrow:setStrokeColor(0,0,0)
+
 -- set the vertices for the hair
 local hairVertices = { -120,140, -140,120, -120,160, -140,180, -120,180,  -140,220,
 -100,200, -80,230, -60,180, -40,220, -30,200, 0,240, 20,180, 30,220, 40,200, 
@@ -186,42 +222,6 @@ leftEar:setStrokeColor(0,0,0)
 
 -- change the colour of the left ear
 leftEar:setFillColor( 255/255, 160/255, 122/255 )
-
--- set the vertices for the left eyebrow
-local leftEyebrowVertices = { -60, 105, -60, 115, -80, 115, -100, 105, -100, 95, -80, 105 }
-
--- draw the right eyebrow
-local leftEyebrow = display.newPolygon( 437, 295, leftEyebrowVertices )
-
--- flip the left eyebrow vertically
-leftEyebrow:scale(1,-1)
-
--- change the colour of the left eyebrow
-leftEyebrow:setFillColor( 139/255, 69/255, 19/255 )
-
--- change the width of the left eyebrow's border
-leftEyebrow.strokeWidth = 1
-
--- change the colour of the left eyebrow's border
-leftEyebrow: setStrokeColor( 0,0,0 )
-
--- set the vertices for the right eyebrow
-local rightEyebrowVertices = { 60, 105, 60, 115, 80, 115, 100, 105, 100, 95, 80, 105 }
-
--- draw the right eyebrow
-local rightEyebrow = display.newPolygon( 586, 295, rightEyebrowVertices )
-
--- flip the right eyebrow vertically
-rightEyebrow:scale(1,-1)
-
--- change the colour of the right eyebrow
-rightEyebrow:setFillColor( 139/255, 69/255, 19/255)
-
--- change the width of the right eyebrow's border's width
-rightEyebrow.strokeWidth = 1
-
--- change the colour of the right eyebrow's border
-rightEyebrow:setStrokeColor(0,0,0)
 
 -- set the vertices for the mouth line
 local leftEarLine = display.newLine( -130, 80, -140, 70, -140, 50, -130, 40 )
