@@ -175,6 +175,7 @@ end
 -- OffLaser will be called over and over again
 Runtime:addEventListener("enterFrame", OffLaser)
 
+-- draw longLaser
 local longLaser = display.newRect( 478, 400, 600, 10)
 
 -- set the colour of the longLaser
