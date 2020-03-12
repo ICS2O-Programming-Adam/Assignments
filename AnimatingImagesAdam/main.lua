@@ -140,12 +140,68 @@ local function ShootLaser(event)
 	end
 end
 
+-- ShootLaser will be called over and over again
 Runtime:addEventListener("enterFrame", ShootLaser)
 
-local function StopLaser(event)
+-- set the scrollSpeed4
+scrollSpeed4 = -15
+
+-- function FlyPeter
+-- input: this function accepts an event listener
+-- output: none
+-- description: makes robloxPeter fly diagonally and spin when hit with laser
+local function FlyPeter(event)
 	if (laser.alpha == 1) then
-		laser.alpha = laser.alpa
+		robloxPeter.x = robloxPeter.x + scrollSpeed4
+		robloxPeter.y = robloxPeter.y + scrollSpeed4
+		robloxPeter:rotate(20)
 	end
 end
 
-Runtime:addEventListener("enterFrame", StopLaser)
+-- FlyPeter will be called over and over again
+Runtime:addEventListener("enterFrame", FlyPeter)
+
+-- function OffLaser
+-- input: this function accepts an event listener
+-- output: none
+-- description: Turns off the laser when robloxPeter flies off screen
+
+local function OffLaser(event)
+	if (robloxPeter.x <= 200) then
+		laser.alpha = 0
+	end
+end
+
+-- OffLaser will be called over and over again
+Runtime:addEventListener("enterFrame", OffLaser)
+
+local longLaser = display.newRect( 478, 400, 600, 10)
+
+-- set the colour of the longLaser
+longLaser:setFillColor(1,0,0)
+
+-- make the longLaser transparent
+longLaser.alpha = 0
+
+
+-- function: ShootLargeLaser
+-- input: this function accepts an event listener
+-- output: none
+-- description: Shoots laser
+local function ShootLargeLaser(event)
+	if (robloxPeter.x <= 1) then
+		longLaser.alpha = 1
+	end
+end
+
+-- ShootLargeLaser will be called over and over
+Runtime:addEventListener("enterFrame", ShootLargeLaser)
+
+local function ShrinkCharlotte(event)
+	if (longLaser.alpha == 1) then
+		robloxCharlotte.xscale = robloxCharlotte.xscale - 1
+		robloxCharlotte.yscale = robloxCharlotte.yscale - 1
+	end
+end
+
+Runtime:addEventListener('enterFrame', ShrinkCharlotte)
