@@ -189,20 +189,47 @@ longLaser.alpha = 0
 -- input: this function accepts an event listener
 -- output: none
 -- description: Shoots laser
-local function ShootLargeLaser(event)
+local function ShootLongLaser(event)
 	if (robloxPeter.x <= 1) then
 		longLaser.alpha = 1
 	end
 end
 
 -- ShootLargeLaser will be called over and over
-Runtime:addEventListener("enterFrame", ShootLargeLaser)
+Runtime:addEventListener("enterFrame", ShootLongLaser)
+
+-- set the scrollSpeed5
+scrollSpeed5 = 15
+
+local moveUp = 1
 
 local function ShrinkCharlotte(event)
 	if (longLaser.alpha == 1) then
-		robloxCharlotte.xscale = robloxCharlotte.xscale - 1
-		robloxCharlotte.yscale = robloxCharlotte.yscale - 1
+		robloxCharlotte.xScale = 0.3
+		robloxCharlotte.yScale = 0.3
+	end
+
+	if (longLaser.alpha == 1) then
 	end
 end
 
-Runtime:addEventListener('enterFrame', ShrinkCharlotte)
+-- ShrinkCharlotte will be called over and over again
+Runtime:addEventListener("enterFrame", ShrinkCharlotte)
+
+local function FlyCharlotte(event)
+	if (moveUp == 1) then
+		robloxCharlotte.y = robloxCharlotte.y - scrollSpeed5 
+	else 
+		robloxCharlotte.y = robloxCharlotte.y + scrollSpeed5
+	end
+
+	if (robloxCharlotte.y <= 0) then
+		moveUp = 0
+	end
+
+	if (robloxCharlotte.y >= 400) then
+		moveUp = 1
+	end
+end
+
+timer.performWithDelay(4000, FlyCharlotte)
