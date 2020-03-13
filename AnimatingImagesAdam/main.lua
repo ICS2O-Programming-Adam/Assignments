@@ -130,6 +130,11 @@ laser:setFillColor(1, 0, 0)
 -- make the laser invisible
 laser.alpha = 0
 
+-- create the sound vazriable
+local laserSound = audio.loadSound("Sounds/lasersound.mp3")
+
+local laserSoundChannel 
+
 -- function: ShootLaser
 -- input: this function accepts an event listener
 -- output: none
@@ -137,6 +142,7 @@ laser.alpha = 0
 local function ShootLaser(event)
 	if (robloxPrisonMike.x <= 800) then
 		laser.alpha = 1
+		laserSoundChannel = audio.play("laserSound", duration = 500)
 	end
 end
 
