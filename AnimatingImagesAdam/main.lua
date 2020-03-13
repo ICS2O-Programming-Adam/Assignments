@@ -16,7 +16,7 @@ backgroundImage.x = 510
 backgroundImage.y = 370
 
 -- create the first character
-local robloxPrisonMike = display.newImageRect("images/robloxprisonmike.png", 200, 200)
+local robloxPrisonMike = display.newImageRect("Images/robloxprisonmike.png", 200, 200)
 
 -- set the location of the character
 robloxPrisonMike.x = 1024
@@ -133,7 +133,11 @@ laser.alpha = 0
 -- create the sound vazriable
 local laserSound = audio.loadSound("Sounds/lasersound.mp3")
 
-local laserSoundChannel 
+-- create the sound channel
+local laserSoundChannel
+
+-- create boolean that says "laser sound played"
+local laserSoundPlayed = false
 
 -- function: ShootLaser
 -- input: this function accepts an event listener
@@ -142,7 +146,10 @@ local laserSoundChannel
 local function ShootLaser(event)
 	if (robloxPrisonMike.x <= 800) then
 		laser.alpha = 1
-		laserSoundChannel = audio.play("laserSound", duration = 500)
+		if (laserSoundPlayed == false) then
+			laserSoundChannel = audio.play(laserSound) 
+			laserSoundPlayed = true
+		end
 	end
 end
 
@@ -190,6 +197,8 @@ longLaser:setFillColor(1,0,0)
 -- make the longLaser transparent
 longLaser.alpha = 0
 
+-- create a second laserSoundPlayed boolean
+local longLaserSoundPlayed = false
 
 -- function: ShootLargeLaser
 -- input: this function accepts an event listener
@@ -198,6 +207,11 @@ longLaser.alpha = 0
 local function ShootLongLaser(event)
 	if (robloxPeter.x <= 1) then
 		longLaser.alpha = 1
+		if (longLaserSoundPlayed == false) then
+			print("***plying long laser sound")
+			laserSoundChannel = audio.play(laserSound) 
+			longLaserSoundPlayed = true
+		end
 	end
 end
 
@@ -233,9 +247,15 @@ local function FlyCharlotte(event)
 		moveUp = 0
 	end
 
-	if (robloxCharlotte.y >= 400) then
+	if (robloxCharlotte.y >= 500) then
 		moveUp = 1
 	end
+	longLaser.alpha = 0
 end
 
-timer.performWithDelay(4000, FlyCharlotte)
+local function FlyCharlotteDelay()
+	Runtime:addEventListener("enterFrame", FlyCharlotte)
+end
+
+timer.performWithDelay(1650, FlyCharlotteDelay)
+
