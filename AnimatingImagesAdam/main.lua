@@ -2,7 +2,7 @@
 -- Title: AnimatingImages 
 -- Name: Adam Winogon
 -- Course: ICS20/3C
--- Description:
+-- Description: This program tells a story that involves coding elements that were required by the teacher.
 -----------------------------------------------------------------------------------------
 
 -- hide the status bar
@@ -178,7 +178,6 @@ Runtime:addEventListener("enterFrame", FlyPeter)
 -- input: this function accepts an event listener
 -- output: none
 -- description: Turns off the laser when robloxPeter flies off screen
-
 local function OffLaser(event)
 	if (robloxPeter.x <= 200) then
 		laser.alpha = 0
@@ -221,8 +220,13 @@ Runtime:addEventListener("enterFrame", ShootLongLaser)
 -- set the scrollSpeed5
 scrollSpeed5 = 15
 
+-- create the moveUp local vazriable
 local moveUp = 1
 
+-- function: ShrinkCharlotte
+-- input: This function accepts an event listener
+-- output: none
+-- description: Shrinks robloxCharlotte
 local function ShrinkCharlotte(event)
 	if (longLaser.alpha == 1) then
 		robloxCharlotte.xScale = 0.3
@@ -236,6 +240,11 @@ end
 -- ShrinkCharlotte will be called over and over again
 Runtime:addEventListener("enterFrame", ShrinkCharlotte)
 
+-- function: FlyCharlotte
+-- input: This function accepts an event listener
+-- output: none
+-- description: makes robloxCharlotte bounce off the top and bottom of the 
+-- screen for a certain amopunt of time
 local function FlyCharlotte(event)
 	if (moveUp == 1) then
 		robloxCharlotte.y = robloxCharlotte.y - scrollSpeed5 
@@ -250,12 +259,54 @@ local function FlyCharlotte(event)
 	if (robloxCharlotte.y >= 500) then
 		moveUp = 1
 	end
+
+	robloxCharlotte:rotate(15)
 	longLaser.alpha = 0
 end
 
+-- function: FlyCharlotteDelay
+-- input: This function delays another function
+-- output: none
+-- description: Delays the FlyCharlotte function
 local function FlyCharlotteDelay()
 	Runtime:addEventListener("enterFrame", FlyCharlotte)
 end
 
-timer.performWithDelay(1650, FlyCharlotteDelay)
+-- The function will be called
+timer.performWithDelay(2000, FlyCharlotteDelay)
 
+-- function: FlyCharlotteDelay
+-- input: This function stops another function
+-- output: none
+-- description: Stops the FlyCharlotte function
+local function StopFlyCharlotte()
+	Runtime:removeEventListener("enterFrame", FlyCharlotte)
+	audio.play(laserSound)
+end
+
+-- the function will be called
+timer.performWithDelay(5500, StopFlyCharlotte)
+
+-- create a new text variable and set it's location and font size
+local text2 = display.newText("Using his powerfull lasers, he sent the first Giant \n"
+	 .. " to the Moon, and froze the other one forever, \n"
+	  .. " after bouncing him off the ceiling and the roof a couple times. :)", 500, 675, nil, 35)
+
+-- set the colour of the text
+text2:setTextColor( 0/255, 128/255, 255/255 )
+
+-- set the alpha of the text
+text2.alpha = 0
+
+-- function: ShowText
+-- input: this function accepts an event listener
+-- output: none
+-- description: Shows the second text
+local function ShowText(event)
+	if (longLaser.alpha == 1) then
+		text2. alpha = 1
+	end
+end
+
+-- this function will be called over and over again
+Runtime:addEventListener("enterFrame", ShowText)
