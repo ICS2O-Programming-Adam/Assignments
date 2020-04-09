@@ -93,11 +93,7 @@ local function AskQuestion()
 	-- function for division
 	elseif (randomChooser == 4) then
 
-		-- calculate the answer and round it
-		rightAnswer = randomNumber1 / randomNumber2
-		rightAnswer = rightAnswer * 10
-		righttAnswer = math.round(rightAnswer)
-  		rightAnswer = rightAnswer / 10  
+		rightAnswer = 
 
   		-- update the question text
 		questionText.text = randomNumber1 .. " / " .. randomNumber2 .. " = "
