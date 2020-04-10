@@ -31,7 +31,7 @@ local correctText
 local totalSeconds = 15
 local secondsLeft = 15
 local clockText
-local timer
+local countDownTimer
 
 --create lives variables
 local lives = 3
@@ -176,7 +176,7 @@ end
 
 -- function that calls the timer
 local function StartTimer()
-	timer = timer.performWithDelay( 1000, UpdateTime, 0 )
+	countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0 )
 end
 
 -----------------------------------------------------------------------------------------
