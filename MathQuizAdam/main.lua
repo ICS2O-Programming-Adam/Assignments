@@ -41,7 +41,7 @@ local randomFact
 local counter = 1
 local loseText
 local loseImage
-local points = 5
+local points = 0
 local scrollSpeed = 4
 
 --create clock variables
