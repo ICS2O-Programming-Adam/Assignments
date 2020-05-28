@@ -32,7 +32,6 @@ local retro
 local games
 local inc
 local mario
-local luigi
 
 -- speed variables
 local scrollXSpeed = 2
