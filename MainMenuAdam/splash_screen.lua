@@ -125,12 +125,12 @@ end
 
 -- play the jump sound 
 local function MarioSound()
-    jumpSoundChannel = audio.play(jumpSound)
+    jumpSoundChannel = audio.play(jumpSound, { channel = 1})
 end
 
 -- play the "retro games" sound 
 local function FinalSound()
-    logoSoundChannel = audio.play(logoSound)
+    logoSoundChannel = audio.play(logoSound, {channel = 2})
 end
 
 --move mario left
@@ -273,7 +273,7 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         -- start the splash screen music
-        launchSoundChannel = audio.play(launchSound)
+        launchSoundChannel = audio.play(launchSound, {channel = 3})
 
         -- Call the MoveRocket function as soon as we enter the frame.
         Runtime:addEventListener("enterFrame", moveRocket)

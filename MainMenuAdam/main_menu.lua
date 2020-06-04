@@ -63,6 +63,7 @@ end
 local function MoveStar(event)
     shootingStar.x = shootingStar.x + starSpeedX
     shootingStar.y = shootingStar.y + starSpeedY
+    shootingStar.isVisible = true
 end
 
 
@@ -103,6 +104,7 @@ function scene:create( event )
     shootingStar = display.newImageRect("Images/shootstar.png", 210, 148.5)
     shootingStar.x = 700
     shootingStar.y = 0
+    shootingStar.isVisible = false
     sceneGroup:insert( shootingStar )
 
     bkg_image = display.newImage("Images/MainMenu.png")
@@ -217,7 +219,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then  
 
     -- play background music
-    soundChannel = audio.play (sound, {loops = -1})
+    soundChannel = audio.play (sound, {loops = -1}, {channel = 4})
     Runtime:addEventListener( "enterFrame", MoveStar)    
     Runtime:addEventListener( "enterFrame", ReStar)
 
@@ -248,7 +250,8 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-
+        Runtime:removeEventListener(MoveStar)
+        Runtime:removeEventListener(ReStar)
         soundChannel = audio.stop (sound)
     end
 

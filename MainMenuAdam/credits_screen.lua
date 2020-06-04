@@ -29,6 +29,12 @@ scene = composer.newScene( sceneName ) -- This function doesn't accept a string,
 local bkg_image
 local backButton
 
+local rocket
+local ship
+
+local rocketSpeed = -2
+local shipSpeed = -2
+
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -38,6 +44,21 @@ local function BackTransition( )
     composer.gotoScene( "main_menu", {effect = "slideRight", time = 500})
 end
 
+local function MoveRocket(event)
+    rocket.y = rocket.y + rocketSpeed
+end
+
+local function MoveShip(event)
+    ship.y = ship.y + shipSpeed
+end
+
+local function ResetRocket(event)
+    rocket.y = 768
+end
+
+local function ResetShip(event)
+    ship.y = 768
+end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -54,7 +75,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-    bkg_image = display.newImageRect("Images/Credits Screen.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/creditsScreen.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
@@ -65,6 +86,30 @@ function scene:create( event )
 
     -- Send the background image to the back layer so all other objects can be on top
     bkg_image:toBack()
+
+
+    --create the rocket
+    rocket = display.newImageRect("Images/rocket.png", 536.5, 505)
+
+    -- set the initial x and y position of the rocket
+    rocket.x = 850
+    rocket.y = 768
+
+    rocket.rotation = -47.4
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( rocket )
+
+    ship = display.newImageRect("Images/rocket.png", 536.5, 505)
+
+    -- set the initial x and y position of the rocket
+    ship.x = 165
+    ship.y = 768
+
+    ship.rotation = -47.4
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( ship )
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -82,8 +127,8 @@ function scene:create( event )
         height = 100,
 
         -- Setting Visual Properties
-        defaultFile = "Images/Back Button Unpressed.png",
-        overFile = "Images/Back Button Pressed.png",
+        defaultFile = "Images/backButton.png",
+        overFile = "Images/backButtonPressed.png",
 
         -- Setting Functional Properties
         onRelease = BackTransition
@@ -120,6 +165,10 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        timer.performWithDelay(0001, ResetRocket)
+        timer.performWithDelay(0001, ResetShip)
+        Runtime:addEventListener("enterFrame", MoveRocket)
+        Runtime:addEventListener("enterFrame", MoveShip)
     end
 
 end -- function scene:show( event )
@@ -147,6 +196,8 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        Runtime:removeEventListener(MoveRocket)
+        Runtime:removeEventListener(MoveShip)
     end
 
 end --function scene:hide( event )
