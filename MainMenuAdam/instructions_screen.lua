@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
 -- instructions_screen.lua
--- Created by: Your Name
+-- Created by: Adam Winogron
 -- Special thanks to Wal Wal for helping in the design of this framework.
--- Date: Month Day, Year
+-- Date: june 4, 2020
 -- Description: This is the instructions page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 
