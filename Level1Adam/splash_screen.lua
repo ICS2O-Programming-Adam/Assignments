@@ -166,6 +166,7 @@ function scene:create( event )
 
     -- insert into scene group
     sceneGroup:insert( bkg )
+    
 
     -- Insert the rocket image
     rocket = display.newImageRect("Images/rocket.png", 536.5, 505)

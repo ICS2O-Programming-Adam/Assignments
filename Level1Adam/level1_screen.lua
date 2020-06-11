@@ -56,9 +56,33 @@ local SPEED2 = -7
 local LINEAR_VELOCITY = -175
 local GRAVITY = 15
 
+local rocket
+local rocketSpeed = - 2
+
+local comet
+local cometSpeed = 5
+local randomY = math.random( 200, 600 )
+
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+
+local function MoveRocket(event)
+    rocket.x = rocket.x + rocketSpeed
+    if (rocket.x <= -200) then
+        rocket.x = 1400
+    end
+end
+
+local function MoveComet(event)
+    comet.x = comet.x + cometSpeed
+    if (comet.x >= 1100) then
+        comet.x = -50
+        comet.y = math.random( 200, 600 )
+    end
+end
+
 
 local function MovePlat3(event)
     plat3.y = plat3.y + platSpeed1
@@ -198,7 +222,10 @@ local function AddPhysicsBodies()
     physics.addBody( plat4, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( plat5, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( plat6, "static", { density=1.0, friction=0.3, bounce=0.2 } )
-    physics.addBody( astro, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )   
+    physics.addBody( rocket, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( comet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( astro, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )
+    astro.isFixedRotation = true   
 
 end
 
@@ -209,6 +236,8 @@ local function RemovePhysicsBodies()
     physics.removeBody(plat4)
     physics.removeBody(plat5)
     physics.removeBody(plat6)
+    physics.removeBody(rocket)
+    physics.removeBody(comet)
     physics.removeBody(astro)
 
  
@@ -229,6 +258,10 @@ local function AddCollisionListeners()
     plat5:addEventListener( "collision" )
     plat6.collision = onCollision
     plat6:addEventListener( "collision" )
+    rocket.collision = onCollision
+    rocket:addEventListener( "collision" )
+    comet.collision = onCollision
+    comet:addEventListener( "collision" )
 
 end
 
@@ -240,6 +273,8 @@ local function RemoveCollisionListeners()
     plat4:removeEventListener( "collision" )
     plat5:removeEventListener( "collision" )
     plat6:removeEventListener( "collision" )
+    comet:removeEventListener( "collision" )
+    rocket:removeEventListener( "collision" )
 
 end
 
@@ -264,6 +299,27 @@ local function Unmute(touch)
         unmuteButton.isVisible = false
     end
 end
+
+--local function Warning(event)
+
+
+
+local function onCollision( self, event )
+    -- for testing purposes
+    --print( event.target )        --the first object in the collision
+    --print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
+
+    if ( event.phase == "began" ) then
+
+        if (event.target.myName == "plat4") then
+            Runtime:addEventListener("enterFrame", Warning)
+        end
+    end
+end
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -308,8 +364,8 @@ function scene:create( event )
     sceneGroup:insert( plat3 )
  
 
-    plat4 = display.newImageRect("Images/platform4.png", 256, 205)
-    plat4.x = 800
+    plat4 = display.newImageRect("Images/platform4.png", 225, 205)
+    plat4.x = 825
     plat4.y = 500
     sceneGroup:insert( plat4 )
 
@@ -336,8 +392,8 @@ function scene:create( event )
     sceneGroup:insert( analogStick )
 
      astro = display.newImageRect("Images/astronaut.png", 77.875, 90.125)
-        astro.x = display.contentCenterX
-        astro.y = display.contentCenterY*4/3
+        astro.x = 250
+        astro.y = 650
         astro:scale(-1,1)
 
     -- mute button
@@ -356,6 +412,27 @@ function scene:create( event )
     unmuteButton.isVisible = false
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( unmuteButton )
+
+
+    -- Insert the rocket image
+    rocket = display.newImageRect("Images/rocket2.png", 110, 375)
+
+    -- set the initial x and y position of the rocketS
+    rocket.x = 1400
+    rocket.y = 350
+
+    rocket.rotation = -90
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( rocket )    
+
+
+    --insert meteor image
+    comet = display.newImageRect("Images/meteor.png", 40.9375, 61.125)
+    comet.y = randomY
+    comet.x = -50
+    comet.rotation = -90
+
 
 
 
@@ -387,6 +464,8 @@ function scene:show( event )
 
         Runtime:addEventListener("enterFrame", MovePlat3)
         Runtime:addEventListener("enterFrame", MovePlat5)
+        Runtime:addEventListener("enterFrame", MoveRocket)
+        Runtime:addEventListener("enterFrame", MoveComet)
 
         muteButton:addEventListener("touch", Mute)
         unmuteButton:addEventListener("touch", Unmute)
@@ -439,6 +518,8 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         muteButton:removeEventListener("touch", Mute)
         unmuteButton:removeEventListener("touch", Unmute)
+        Runtime:removeEventListener( MoveRocket )
+
 
         RemovePhysicsBodies()
 
