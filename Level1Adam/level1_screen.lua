@@ -198,7 +198,7 @@ local function AddPhysicsBodies()
     physics.addBody( plat4, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( plat5, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( plat6, "static", { density=1.0, friction=0.3, bounce=0.2 } )
-    physics.addBody( astro, "static", { density=0, friction=0.5, bounce=0, rotation=0 } )   
+    physics.addBody( astro, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )   
 
 end
 
@@ -212,6 +212,35 @@ local function RemovePhysicsBodies()
     physics.removeBody(astro)
 
  
+end
+
+
+local function AddCollisionListeners()
+    -- if character collides with plat, onCollision will be called
+    plat1.collision = onCollision
+    plat1:addEventListener( "collision" )
+    plat2.collision = onCollision
+    plat2:addEventListener( "collision" )
+    plat3.collision = onCollision
+    plat3:addEventListener( "collision" )
+    plat4.collision = onCollision
+    plat4:addEventListener( "collision" )
+    plat5.collision = onCollision
+    plat5:addEventListener( "collision" )
+    plat6.collision = onCollision
+    plat6:addEventListener( "collision" )
+
+end
+
+local function RemoveCollisionListeners()
+
+    plat1:removeEventListener( "collision" )
+    plat2:removeEventListener( "collision" )
+    plat3:removeEventListener( "collision" )
+    plat4:removeEventListener( "collision" )
+    plat5:removeEventListener( "collision" )
+    plat6:removeEventListener( "collision" )
+
 end
 
 local function Mute(touch)
