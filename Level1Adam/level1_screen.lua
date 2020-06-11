@@ -47,6 +47,9 @@ local joystickPressed = false
 
 local astro
 
+local koko
+local kokoSpeed = 1
+
 local muteButton
 local unmuteButton
 
@@ -67,13 +70,25 @@ local randomY = math.random( 200, 600 )
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-
 local function MoveRocket(event)
     rocket.x = rocket.x + rocketSpeed
     if (rocket.x <= -200) then
         rocket.x = 1400
     end
 end
+
+local function MoveKoko(event)
+    koko.x = koko.x + kokoSpeed
+    if (koko.x >= 550) then
+        kokoSpeed = -1
+        koko:scale(-1,1)
+    end
+    if (koko.x <= 450) then
+        kokoSpeed = 1
+        koko:scale(-1,1)
+    end
+end
+
 
 local function MoveComet(event)
     comet.x = comet.x + cometSpeed
@@ -224,6 +239,7 @@ local function AddPhysicsBodies()
     physics.addBody( plat6, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( rocket, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( comet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( koko, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( astro, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )
     astro.isFixedRotation = true   
 
@@ -239,6 +255,7 @@ local function RemovePhysicsBodies()
     physics.removeBody(rocket)
     physics.removeBody(comet)
     physics.removeBody(astro)
+    physics.removeBody(koko)
 
  
 end
@@ -262,6 +279,10 @@ local function AddCollisionListeners()
     rocket:addEventListener( "collision" )
     comet.collision = onCollision
     comet:addEventListener( "collision" )
+    astro.collision = onCollision
+    astro:addEventListener( "collision" )
+    koko.collision = onCollision
+    koko:addEventListener( "collision" )
 
 end
 
@@ -275,6 +296,8 @@ local function RemoveCollisionListeners()
     plat6:removeEventListener( "collision" )
     comet:removeEventListener( "collision" )
     rocket:removeEventListener( "collision" )
+    astro:removeEventListener( "collision" )
+    koko:removeEventListener( "collision" )
 
 end
 
@@ -300,9 +323,10 @@ local function Unmute(touch)
     end
 end
 
---local function Warning(event)
 
-
+local function GoToLose()
+    composer.gotoScene( "you_lose", {effect = "fade", time = 500})
+end
 
 local function onCollision( self, event )
     -- for testing purposes
@@ -317,6 +341,11 @@ local function onCollision( self, event )
         if (event.target.myName == "plat4") then
             Runtime:addEventListener("enterFrame", Warning)
         end
+
+        if (event.target.myName == "comet") then
+            timer.perfromWithDelay(10, GoToLose)
+        end
+
     end
 end
 
@@ -391,10 +420,17 @@ function scene:create( event )
 
     sceneGroup:insert( analogStick )
 
-     astro = display.newImageRect("Images/astronaut.png", 77.875, 90.125)
+    astro = display.newImageRect("Images/astronaut.png", 77.875, 90.125)
         astro.x = 250
         astro.y = 650
         astro:scale(-1,1)
+        astro.myName = "astro"
+        sceneGroup:insert( astro )
+
+    koko = display.newImageRect("Images/spacechimp2.png", 125, 108.33)
+    koko.x = 500
+    koko.y = 80
+    sceneGroup:insert( koko )
 
     -- mute button
     muteButton = display.newImageRect ("Images/mute.png", 85, 85)
@@ -432,6 +468,8 @@ function scene:create( event )
     comet.y = randomY
     comet.x = -50
     comet.rotation = -90
+    comet.myName = "astro"
+    sceneGroup:insert( comet )
 
 
 
@@ -466,6 +504,7 @@ function scene:show( event )
         Runtime:addEventListener("enterFrame", MovePlat5)
         Runtime:addEventListener("enterFrame", MoveRocket)
         Runtime:addEventListener("enterFrame", MoveComet)
+        Runtime:addEventListener("enterFrame", MoveKoko)
 
         muteButton:addEventListener("touch", Mute)
         unmuteButton:addEventListener("touch", Unmute)

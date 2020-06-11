@@ -81,7 +81,7 @@ end
 
 -- The function that will go to the main menu 
 local function gotoLevel1()
-    composer.gotoScene( "level1_screen", {effect = "fade", time = 9000})
+    composer.gotoScene( "level1_screen", {effect = "fade", time = 1000})
 end
 
 -----------------------------------------------------------------------------------------
