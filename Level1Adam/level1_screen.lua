@@ -265,33 +265,34 @@ function scene:create( event )
     plat1 = display.newImageRect("Images/platform1.png", 200, 85.084)
     plat1.x = 250
     plat1.y = 700
+    sceneGroup:insert( plat1 )
     
-
 
     plat2 = display.newImageRect("Images/platform2.png", 300, 99.75)
     plat2.x = 500
     plat2.y = 150
- 
+    sceneGroup:insert( plat2 )
 
     plat3 = display.newImageRect("Images/platform5.png", 163.875, 109.25)
     plat3.x = 450
     plat3.y = 600
-    
+    sceneGroup:insert( plat3 )
  
 
     plat4 = display.newImageRect("Images/platform4.png", 256, 205)
     plat4.x = 800
     plat4.y = 500
-
+    sceneGroup:insert( plat4 )
 
     plat5 = display.newImageRect("Images/platform5.png", 163.875, 109.25)
     plat5.x = 625
     plat5.y = 500
-
+    sceneGroup:insert( plat5 )
 
     plat6 = display.newImageRect("Images/platform6.png", 128, 102.5)
     plat6.x = 200
     plat6.y = 300
+    sceneGroup:insert( plat6 )
 
     -- Creating Joystick
     analogStick = joystick.new( 50, 75 ) 
