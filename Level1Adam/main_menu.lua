@@ -48,6 +48,9 @@ local rocket
 local starSpeedX = -15
 local starSpeedY = 15
 
+local muteButton
+local unmuteButton
+
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -85,6 +88,30 @@ end
 local function InstructionsTransition( )
     composer.gotoScene( "instructions_screen", {effect = "fromLeft", time = 1000})
 end
+
+
+local function Mute(touch)
+    if (touch.phase == "ended") then
+        -- pause the sound 
+        audio.stop(soundChannel)
+        -- hide the mute button
+        muteButton.isVisible = false
+        -- make the unmute button visible
+        unmuteButton.isVisible = true
+    end
+end
+
+local function Unmute(touch)
+    if (touch.phase == "ended") then
+        -- pause the sound 
+        soundChannel = audio.play(sound)
+        -- hide the mute button
+        muteButton.isVisible = true
+        -- make the unmute button visible
+        unmuteButton.isVisible = false
+    end
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -118,6 +145,23 @@ function scene:create( event )
 
     -- Send the background image to the back layer so all other objects can be on top
     bkg_image:toBack()
+
+    -- mute button
+    muteButton = display.newImageRect ("Images/mute.png", 85, 85)
+    muteButton.x = 75
+    muteButton.y = 65
+    muteButton.isVisible = true
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( muteButton )
+
+    -- unmute button
+    unmuteButton = display.newImageRect ("Images/unmute.png", 85, 85)
+    unmuteButton.x = 75
+    unmuteButton.y = 65
+    unmuteButton.isVisible = false
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( unmuteButton )
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -223,6 +267,9 @@ function scene:show( event )
     Runtime:addEventListener( "enterFrame", MoveStar)    
     Runtime:addEventListener( "enterFrame", ReStar)
 
+    muteButton:addEventListener("touch", Mute)
+    unmuteButton:addEventListener("touch", Unmute)
+
     end
 
 end -- function scene:show( event )
@@ -252,6 +299,10 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         Runtime:removeEventListener(MoveStar)
         Runtime:removeEventListener(ReStar)
+
+        muteButton:removeEventListener("touch", Mute)
+        unmuteButton:removeEventListener("touch", Unmute)
+
         audio.stop(soundChannel)
     end
 

@@ -192,7 +192,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then  
 
     -- play background music
-    soundChannel = audio.play (sound, {loops = -1}, {channel = 4})
+    --soundChannel = audio.play (sound, {loops = -1}, {channel = 4})
     Runtime:addEventListener( "enterFrame", MoveStar)    
     Runtime:addEventListener( "enterFrame", ReStar)
 

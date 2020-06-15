@@ -53,6 +53,12 @@ local kokoSpeed = 1
 local muteButton
 local unmuteButton
 
+local bkgSound
+local coinSound = audio.loadStream("Sounds/collectcoin.wav")
+local coinSoundChannel
+
+local moonCount = 0
+
 local motionx = 0
 local SPEED = 7
 local SPEED2 = -7
@@ -65,6 +71,9 @@ local rocketSpeed = - 2
 local comet
 local cometSpeed = 5
 local randomY = math.random( 200, 600 )
+
+local moonLeft
+local moonRight
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -231,8 +240,26 @@ end -- local function RuntimeEvents( )
 
 
 local function GoToLose()
-    composer.gotoScene( "you_lose", {effect = "fade", time = 500})
+    composer.gotoScene( "you_lose", {effect = "fade", time = 0001})
 end
+
+local function LMoonTransition(event)
+    moonLeft.y = 100
+    moonLeft.width = 200
+    moonLeft.height = 156.25
+    coinSoundChannel = audio.play(coinSound)
+    moonCount = moonCount + 1
+end
+
+local function RMoonTransition(event)
+    moonRight.y = 100
+    moonRight.x = 850
+    moonRight.width = 200
+    moonRight.height = 156.25
+    coinSoundChannel = audio.play(coinSound)
+    moonCount = moonCount + 1
+end
+
 
 local function onCollision( self, event )
     -- for testing purposes
@@ -249,9 +276,22 @@ local function onCollision( self, event )
         end
 
         if (event.target.myName == "comet") then
-            timer.perfromWithDelay(10, GoToLose)
+            timer.performWithDelay(10, GoToLose)
         end
 
+        if (event.target.myName == "moonLeft") then
+            timer.performWithDelay(10, LMoonTransition)
+        end
+
+        if (event.target.myName == "moonRight") then
+            timer.performWithDelay(10, RMoonTransition)
+        end
+
+        if (event.target.myName == "koko") then
+            if (moonRight.x >= 700) then
+                composer.gotoScene( "final_screen" )
+            end
+        end
     end
 end
 
@@ -266,6 +306,8 @@ local function AddPhysicsBodies()
     physics.addBody( rocket, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( comet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( koko, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( moonRight, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( moonLeft, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( astro, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )
     astro.isFixedRotation = true   
 
@@ -282,6 +324,8 @@ local function RemovePhysicsBodies()
     physics.removeBody(comet)
     physics.removeBody(astro)
     physics.removeBody(koko)
+    physics.removeBody(moonRight)
+    physics.removeBody(moonLeft)
 
  
 end
@@ -309,6 +353,11 @@ local function AddCollisionListeners()
     astro:addEventListener( "collision" )
     koko.collision = onCollision
     koko:addEventListener( "collision" )
+    moonRight.collision = onCollision
+    moonRight:addEventListener( "collision" )
+    moonLeft.collision = onCollision
+    moonLeft:addEventListener( "collision" )
+
 
 end
 
@@ -324,6 +373,8 @@ local function RemoveCollisionListeners()
     rocket:removeEventListener( "collision" )
     astro:removeEventListener( "collision" )
     koko:removeEventListener( "collision" )
+    moonRight:removeEventListener( "collision" )
+    moonLeft:removeEventListener( "collision" )
 
 end
 
@@ -429,6 +480,7 @@ function scene:create( event )
     koko = display.newImageRect("Images/spacechimp2.png", 125, 108.33)
     koko.x = 500
     koko.y = 80
+    koko.myName = "koko"
     sceneGroup:insert( koko )
 
     -- mute button
@@ -470,6 +522,19 @@ function scene:create( event )
     comet.myName = "comet"
     sceneGroup:insert( comet )
 
+    --insert moonLeft
+    moonLeft = display.newImageRect("Images/leftmoon.png", 100, 78.125)
+    moonLeft.x = 850
+    moonLeft.y = 350
+    moonLeft.myName = "moonLeft"
+    sceneGroup:insert( moonLeft )
+
+    --insert moonRight
+    moonRight = display.newImageRect("Images/rightmoon.png", 100, 78.125)
+    moonRight.x = 175
+    moonRight.y = 200
+    moonRight.myName = "moonRight"
+    sceneGroup:insert( moonRight )
 
 
 
@@ -517,6 +582,7 @@ function scene:show( event )
 
         -- add physics bodies to each object
         AddPhysicsBodies()
+        AddCollisionListeners()
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
@@ -560,6 +626,7 @@ function scene:hide( event )
 
 
         RemovePhysicsBodies()
+        RemoveCollisionListeners()
 
         physics.stop()
     end
