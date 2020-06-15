@@ -229,6 +229,32 @@ local function RuntimeEvents( )
 
 end -- local function RuntimeEvents( )
 
+
+local function GoToLose()
+    composer.gotoScene( "you_lose", {effect = "fade", time = 500})
+end
+
+local function onCollision( self, event )
+    -- for testing purposes
+    --print( event.target )        --the first object in the collision
+    --print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
+
+    if ( event.phase == "began" ) then
+
+        if (event.target.myName == "plat4") then
+            Runtime:addEventListener("enterFrame", Warning)
+        end
+
+        if (event.target.myName == "comet") then
+            timer.perfromWithDelay(10, GoToLose)
+        end
+
+    end
+end
+
 local function AddPhysicsBodies()
     --add to the physics engine
     physics.addBody( plat1, "static", { density=1.0, friction=0.3, bounce=0.2 } )
@@ -322,33 +348,6 @@ local function Unmute(touch)
         unmuteButton.isVisible = false
     end
 end
-
-
-local function GoToLose()
-    composer.gotoScene( "you_lose", {effect = "fade", time = 500})
-end
-
-local function onCollision( self, event )
-    -- for testing purposes
-    --print( event.target )        --the first object in the collision
-    --print( event.other )         --the second object in the collision
-    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
-    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
-    --print( event.target.myName .. ": collision began with " .. event.other.myName )
-
-    if ( event.phase == "began" ) then
-
-        if (event.target.myName == "plat4") then
-            Runtime:addEventListener("enterFrame", Warning)
-        end
-
-        if (event.target.myName == "comet") then
-            timer.perfromWithDelay(10, GoToLose)
-        end
-
-    end
-end
-
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -468,7 +467,7 @@ function scene:create( event )
     comet.y = randomY
     comet.x = -50
     comet.rotation = -90
-    comet.myName = "astro"
+    comet.myName = "comet"
     sceneGroup:insert( comet )
 
 

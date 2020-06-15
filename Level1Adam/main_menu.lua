@@ -252,7 +252,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         Runtime:removeEventListener(MoveStar)
         Runtime:removeEventListener(ReStar)
-        soundChannel = audio.stop(sound)
+        audio.stop(soundChannel)
     end
 
 end -- function scene:hide( event )
