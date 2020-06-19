@@ -10,8 +10,7 @@
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
-local sound = audio.loadStream("Sounds/bkgMusic.ogg")
-local soundChannel 
+
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
 -----------------------------------------------------------------------------------------
@@ -132,7 +131,7 @@ function scene:create( event )
             overFile = "Images/AgainButtonPressed.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = MenuTransition          
+            onRelease = Level1ScreenTransition          
         } )
 
     -----------------------------------------------------------------------------------------
@@ -155,13 +154,13 @@ function scene:create( event )
             overFile = "Images/MenuButtonPressed.png",
 
             -- When the button is released, call the Credits transition function
-            onRelease = InstructionsTransition
+            onRelease = MenuTransition
         } ) 
     -----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
     sceneGroup:insert( againButton )
-    sceneGroup:insert( menuButton)
+    sceneGroup:insert( menuButton )
 
 end -- function scene:create( event )   
 
@@ -223,9 +222,8 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        Runtime:removeEventListener(MoveStar)
-        Runtime:removeEventListener(ReStar)
-        soundChannel = audio.stop(sound)
+        Runtime:removeEventListener("enterFrame", MoveStar)
+        Runtime:removeEventListener("enterFrame", ReStar)
     end
 
 end -- function scene:hide( event )

@@ -49,7 +49,7 @@ local launchSound = audio.loadSound("Sounds/launch.mp3")
 local launchSoundChannel
 local jumpSound = audio.loadSound("Sounds/mario.mp3")
 local jumpSoundChannel
-local logoSound = audio.loadSound("Sounds/retrogames.MOV")
+local logoSound = audio.loadSound("Sounds/retrogames.mp3")
 local logoSoundChannel
 
 --------------------------------------------------------------------------------------------

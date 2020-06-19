@@ -93,7 +93,7 @@ end
 local function Mute(touch)
     if (touch.phase == "ended") then
         -- pause the sound 
-        audio.stop(soundChannel)
+        audio.stop()
         -- hide the mute button
         muteButton.isVisible = false
         -- make the unmute button visible
@@ -297,8 +297,8 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        Runtime:removeEventListener(MoveStar)
-        Runtime:removeEventListener(ReStar)
+        Runtime:removeEventListener( "enterFrame", MoveStar)    
+        Runtime:removeEventListener( "enterFrame", ReStar)
 
         muteButton:removeEventListener("touch", Mute)
         unmuteButton:removeEventListener("touch", Unmute)

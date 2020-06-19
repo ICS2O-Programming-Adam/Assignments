@@ -53,8 +53,9 @@ local kokoSpeed = 1
 local muteButton
 local unmuteButton
 
-local bkgSound
-local coinSound = audio.loadStream("Sounds/collectcoin.wav")
+local bkgSoundChannel
+local bkgSound = audio.loadSound("Sounds/lvl1sound.mp3")
+local coinSound = audio.loadSound("Sounds/collectcoin.mp3")
 local coinSoundChannel
 
 local moonCount = 0
@@ -400,6 +401,23 @@ local function Unmute(touch)
     end
 end
 
+local function Reset()
+    astro.x = 250
+    astro.y = 650 
+
+    rocket.x = 1400
+    rocket.y = 350 
+
+    comet.y = randomY
+    comet.x = -50 
+
+    plat3.x = 450
+    plat3.y = 600 
+
+    plat5.x = 625
+    plat5.y = 500 
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -580,6 +598,9 @@ function scene:show( event )
         analogStick:addEventListener( "touch", Movement )
         Runtime:addEventListener("enterFrame", RuntimeEvents)
 
+        bkgSoundChannel = audio.play(bkgSound)
+
+
         -- add physics bodies to each object
         AddPhysicsBodies()
         AddCollisionListeners()
@@ -620,13 +641,27 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        Runtime:removeEventListener("enterFrame", MovePlat3)
+        Runtime:removeEventListener("enterFrame", MovePlat5)
+        Runtime:removeEventListener("enterFrame", MoveRocket)
+        Runtime:removeEventListener("enterFrame", MoveComet)
+        Runtime:removeEventListener("enterFrame", MoveKoko)
+
         muteButton:removeEventListener("touch", Mute)
         unmuteButton:removeEventListener("touch", Unmute)
-        Runtime:removeEventListener( MoveRocket )
 
 
+        analogStick:deactivate()
+
+        -- Listening for the usage of the joystick
+        analogStick:removeEventListener( "touch", Movement )
+        Runtime:removeEventListener("enterFrame", RuntimeEvents)
+
+        -- add physics bodies to each object
         RemovePhysicsBodies()
         RemoveCollisionListeners()
+
+        audio.stop(bkgSoundChannel)
 
         physics.stop()
     end

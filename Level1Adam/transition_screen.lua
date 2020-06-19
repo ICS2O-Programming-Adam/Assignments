@@ -36,6 +36,9 @@ local platShrink = 20
 local kokoShrink = 15
 local speechShrink = 10
 
+local tenseSound = audio.loadSound("Sounds/tense.mp3")
+local tenseSoundChannel
+
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -176,6 +179,8 @@ function scene:show( event )
 
         -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 9000, gotoLevel1)     
+
+        tenseSoundChannel = audio.play(tenseSound)
     end
 
 end --function scene:show( event )
@@ -203,6 +208,8 @@ function scene:hide( event )
 
         Runtime:removeEventListener(MoveKoko)
         Runtime:removeEventListener(Shrink)
+
+        audio.stop(tenseSoundChannel)
     end
 
 end --function scene:hide( event )
