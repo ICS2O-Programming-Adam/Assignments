@@ -10,7 +10,7 @@
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
-local sound = audio.loadStream("Sounds/bkgMusic.ogg")
+local sound = audio.loadStream("Sounds/bkgMusic.mp3")
 local soundChannel 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
@@ -48,8 +48,8 @@ local rocket
 local starSpeedX = -15
 local starSpeedY = 15
 
-local muteButton
-local unmuteButton
+--muteButton
+--unmuteButton
 
 
 -----------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ function scene:create( event )
     muteButton.isVisible = true
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( muteButton )
+    --sceneGroup:insert( muteButton )
 
     -- unmute button
     unmuteButton = display.newImageRect ("Images/unmute.png", 85, 85)
@@ -161,7 +161,7 @@ function scene:create( event )
     unmuteButton.y = 65
     unmuteButton.isVisible = false
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( unmuteButton )
+    --sceneGroup:insert( unmuteButton )
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS

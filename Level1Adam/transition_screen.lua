@@ -87,6 +87,14 @@ local function gotoLevel1()
     composer.gotoScene( "level1_screen", {effect = "fade", time = 1000})
 end
 
+
+local function Reset()
+    plat2.x = 500
+    plat2.y = 500
+    kingKoko.x = 500
+    kingKoko.y = -200
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -181,6 +189,8 @@ function scene:show( event )
         timer.performWithDelay ( 9000, gotoLevel1)     
 
         tenseSoundChannel = audio.play(tenseSound)
+
+        Reset()
     end
 
 end --function scene:show( event )
