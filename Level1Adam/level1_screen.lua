@@ -602,6 +602,7 @@ function scene:show( event )
 
 
         -- add physics bodies to each object
+        Reset()
         AddPhysicsBodies()
         AddCollisionListeners()
         -- Called when the scene is now on screen.

@@ -48,8 +48,8 @@ local rocket
 local starSpeedX = -15
 local starSpeedY = 15
 
---muteButton
---unmuteButton
+local muteButton
+local unmuteButton
 
 
 -----------------------------------------------------------------------------------------

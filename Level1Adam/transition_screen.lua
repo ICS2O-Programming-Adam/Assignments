@@ -91,8 +91,12 @@ end
 local function Reset()
     plat2.x = 500
     plat2.y = 500
+    plat2.width = 1000
+    plat2.height = 299
     kingKoko.x = 500
     kingKoko.y = -200
+    kingKoko.width = 360
+    kingKoko.height = 450
 end
 
 -----------------------------------------------------------------------------------------
